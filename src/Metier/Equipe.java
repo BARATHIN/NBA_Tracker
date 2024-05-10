@@ -21,6 +21,20 @@ public class Equipe {
         joueurs.remove(joueur);
     }
 
-    // Getters et Setters
-    // À implémenter
+    public void setNomEquipe(String nomEquipe)
+    {
+    	this.nomEquipe = nomEquipe;
+    }
+    public String getNomEquipe()
+    {
+    	return nomEquipe;
+    }
+    public void setStatistiques(Statistiques statistiques)
+    {
+    	this.statistiques = statistiques;
+    }
+    public Statistiques getStatistiques()
+    {
+    	return statistiques;
+    }
 }

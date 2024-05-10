@@ -1,6 +1,5 @@
 package View;
 
-import java.awt.EventQueue;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,10 +9,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.Component;
 
 import Controleur.ControleurMatchs;
 

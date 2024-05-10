@@ -18,9 +18,52 @@ public class Statistiques {
         this.minutesJouees = minutesJouees;
     }
 
-    // Getters et Setters
-    // À implémenter
+	public int getPoints() {
+		return points;
+	}
 
-    // Méthodes supplémentaires
-    // À implémenter
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+	public int getRebonds() {
+		return rebonds;
+	}
+
+	public void setRebonds(int rebonds) {
+		this.rebonds = rebonds;
+	}
+
+	public int getPassesDecisives() {
+		return passesDecisives;
+	}
+
+	public void setPassesDecisives(int passesDecisives) {
+		this.passesDecisives = passesDecisives;
+	}
+
+	public int getInterceptions() {
+		return interceptions;
+	}
+
+	public void setInterceptions(int interceptions) {
+		this.interceptions = interceptions;
+	}
+
+	public int getContres() {
+		return contres;
+	}
+
+	public void setContres(int contres) {
+		this.contres = contres;
+	}
+
+	public int getMinutesJouees() {
+		return minutesJouees;
+	}
+
+	public void setMinutesJouees(int minutesJouees) {
+		this.minutesJouees = minutesJouees;
+	}
+
 }

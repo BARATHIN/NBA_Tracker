@@ -1,81 +1,99 @@
 package View;
 
 import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Toolkit;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
+import java.awt.Dimension;
 
 import Controleur.ControleurMatchs;
+import Metier.Match;
 
 public class Matchs extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTable tableMatches;
-	private DefaultTableModel model; // Ajouté comme attribut pour y accéder dans Ajouter_Match
-    
+    private DefaultTableModel model;
     private JButton btnNewMatch;
-	private ControleurMatchs controleur;
+    private ControleurMatchs controleur;
+    private JSplitPane splitPane;
+    private JPanel rightPanel;
+    private JPanel leftPanel;
+    private JButton btnCreateTeam;
+    private JList<String> listRanking;
 
     public Matchs() {
-    	
-    	
-        // Configuration initiale du JFrame
-        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\matth\\Desktop\\A4\\UML\\Workspace\\NBA_Tracker\\src\\View\\logo-NBA.jpg"));
+        initializeFrame();
+        initializeTables();
+        initializeRightPanel();
+    }
+
+    private void initializeFrame() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage("src/View/logo-NBA.jpg"));
         setTitle("NBA Tracker : Matchs");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 850, 550);
+        setBounds(100, 100, 950, 550);
+
         contentPane = new JPanel();
         contentPane.setBackground(new Color(128, 128, 128));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPane.setLayout(new BorderLayout(0, 0)); // Utilisez BorderLayout pour gérer les composants
+        contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
+    }
 
-        // Créez le modèle pour la JTable avec les noms de colonnes
+    private void initializeTables() {
         String[] columnNames = {"Équipe à domicile", "Score Domicile", "Score Visiteur", "Équipe visiteur"};
         this.model = new DefaultTableModel(columnNames, 0);
-        
-        // Créez la JTable avec le modèle
         tableMatches = new JTable(model);
-        
-        // Remplissez le modèle avec des données de test
-        // Note: Vous remplirez ce modèle avec des données réelles de vos matchs
-        //Ajouter_Match("Denver", "Miami", 131, 125);
-        
-        // Ajustez les largeurs de colonnes
-        tableMatches.getColumnModel().getColumn(0).setPreferredWidth(175); // Équipe à domicile
-        tableMatches.getColumnModel().getColumn(1).setPreferredWidth(25); // Score
-        tableMatches.getColumnModel().getColumn(2).setPreferredWidth(25); // Score
-        tableMatches.getColumnModel().getColumn(3).setPreferredWidth(175); // Équipe visiteur
-        
-        // Ajoutez la JTable dans un JScrollPane (pour les en-têtes de colonnes et la capacité de défilement)
         JScrollPane scrollPane = new JScrollPane(tableMatches);
-        contentPane.add(scrollPane, BorderLayout.CENTER); // Ajoutez le JScrollPane au centre du contentPane
-        
-        // Bouton pour créer un nouveau match
+
+        leftPanel = new JPanel(new BorderLayout());
+        leftPanel.add(scrollPane, BorderLayout.CENTER);
+
         btnNewMatch = new JButton("Nouveau Match");
         btnNewMatch.addActionListener(e -> controleur.ouvrirNouveauMatch());
-        contentPane.add(btnNewMatch, BorderLayout.SOUTH);
-        
+        leftPanel.add(btnNewMatch, BorderLayout.SOUTH);
+
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, null);
+        splitPane.setDividerSize(0);  // Le séparateur ne sera pas visible
+        splitPane.setEnabled(false);  // Empêche le déplacement du séparateur
+        contentPane.add(splitPane, BorderLayout.CENTER);
     }
-    public void Ajouter_Match(String EquipeDomicile, String EquipeVisiteur, int scoreDomicile, int scoreVisiteur)
+
+    private void initializeRightPanel() {
+        rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        listRanking = new JList<>();
+        listRanking.setBorder(BorderFactory.createTitledBorder("Classement"));
+        rightPanel.add(new JScrollPane(listRanking), BorderLayout.CENTER);
+
+        btnCreateTeam = new JButton("Créer une Équipe");
+        btnCreateTeam.addActionListener(e -> controleur.NewEquipe());
+        rightPanel.add(btnCreateTeam, BorderLayout.SOUTH);
+
+        splitPane.setRightComponent(rightPanel);
+    }
+
+    public void Ajouter_Match(String EquipeDomicile, String EquipeVisiteur, int scoreDomicile, int scoreVisiteur) {
+        model.addRow(new Object[]{EquipeDomicile, scoreDomicile, scoreVisiteur, EquipeVisiteur});
+    }
+    
+	public void Ajouter_Match_str(Match match)
     {
-    	try {
-			model.addRow(new Object[]{EquipeDomicile, scoreDomicile, scoreVisiteur, EquipeVisiteur});
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		try {
+			model.addRow(new Object[]{match.getEquipeDomicile(), match.getScoreDomicile(), match.getScoreVisiteur(), match.getEquipeVisiteur()});
+        } 
+		catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+    
     public void setControleur(ControleurMatchs controleur) {
         this.controleur = controleur;
     }

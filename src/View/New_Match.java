@@ -1,6 +1,5 @@
 package View;
 
-import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,10 +13,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.Component;
 import javax.swing.JButton;
 
 import Controleur.ControleurMatchs;
@@ -29,9 +25,6 @@ public class New_Match extends JFrame {
     
     // Controleur
     private ControleurMatchs controleur;
-    
-    // ELements
-    private JTextField txtIDMatch;
     private JTextField txtDate;
     private JTextField txtEquipeDomicile;
     private JTextField txtEquipeVisiteur;
@@ -46,6 +39,8 @@ public class New_Match extends JFrame {
     private JTextField txtMVPContres;
     private JTextField txtMVPMinutes;
     private JButton btnSaveMatch;
+	private JLabel lblEquipeaDomicile;
+    private JLabel lblEquipeaVisiteur;
     
 
     public New_Match() {
@@ -67,25 +62,14 @@ public class New_Match extends JFrame {
         InfoMatch.setBounds(10, 10, 400, 180); // adjust dimensions as needed
         contentPane.add(InfoMatch);
 
-        // Configure and add components to InfoMatch
-        // ID Match label and text field
-        JLabel lblIDMatch = new JLabel("ID match :");
-        lblIDMatch.setBounds(10, 10, 60, 20);
-        InfoMatch.add(lblIDMatch);
-
-        txtIDMatch = new JTextField();
-        txtIDMatch.setEditable(true);
-        txtIDMatch.setBounds(65, 10, 100, 20);
-        InfoMatch.add(txtIDMatch);
-
         // Date label and text field
         JLabel lblDate = new JLabel("Date :");
-        lblDate.setBounds(200, 10, 40, 20);
+        lblDate.setBounds(34, 10, 40, 20);
         InfoMatch.add(lblDate);
 
         txtDate = new JTextField();
         txtDate.setEditable(true);
-        txtDate.setBounds(240, 10, 100, 20);
+        txtDate.setBounds(74, 10, 100, 20);
         InfoMatch.add(txtDate);
         
         JLabel lblEquipeDomicile = new JLabel("Equipe à domicile :");
@@ -96,7 +80,7 @@ public class New_Match extends JFrame {
         txtEquipeDomicile.setEditable(true);
         txtEquipeDomicile.setBounds(160, 45, 200, 20);
         InfoMatch.add(txtEquipeDomicile);
-
+        
         JLabel lblEquipeVisiteur = new JLabel("Equipe visiteur :");
         lblEquipeVisiteur.setBounds(10, 80, 150, 20);
         InfoMatch.add(lblEquipeVisiteur);
@@ -123,6 +107,18 @@ public class New_Match extends JFrame {
         txtScoreVisiteur.setEditable(true);
         txtScoreVisiteur.setBounds(160, 150, 200, 20);
         InfoMatch.add(txtScoreVisiteur);
+        
+		JButton btnSauvegarde = new JButton("Sauvegarder");
+        btnSauvegarde.addActionListener(e -> {
+			try {
+				controleur.EnregistrerInfoMatch();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+        
+        btnSauvegarde.setBounds(223, 10, 137, 21);
+        InfoMatch.add(btnSauvegarde);
         
         
         // Panel MVP
@@ -218,8 +214,8 @@ public class New_Match extends JFrame {
         EquipeDomicile.setLayout(null);
 
 
-        JLabel lblEquipeaDomicile = new JLabel("Equipe à domicile :");
-        lblEquipeaDomicile.setBounds(10, 5, 100, 20);
+        lblEquipeaDomicile = new JLabel("Equipe à domicile :");
+        lblEquipeaDomicile.setBounds(10, 5, 380, 20);
         EquipeDomicile.add(lblEquipeaDomicile);
 
         String[] columnNamesDomiciles = {"Nom", "Prénom", "Temps", "Points", "Rebonds", "Passes"};
@@ -240,8 +236,8 @@ public class New_Match extends JFrame {
         getContentPane().add(EquipeVisiteur);
         EquipeVisiteur.setLayout(null);
 
-        JLabel lblEquipeaVisiteur = new JLabel("Equipe Visiteur :");
-        lblEquipeaVisiteur.setBounds(10, 5, 100, 20);
+        lblEquipeaVisiteur = new JLabel("Equipe Visiteur :");
+        lblEquipeaVisiteur.setBounds(10, 5, 380, 20);
         EquipeVisiteur.add(lblEquipeaVisiteur);
 
         String[] columnNamesVisiteur = {"Nom", "Prénom", "Temps", "Points", "Rebonds", "Passes"};
@@ -260,24 +256,18 @@ public class New_Match extends JFrame {
 			try {
 				controleur.ouvrirMatchs();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
         contentPane.add(btnSaveMatch);
     }
     
-    public int get_txtIDMatch()
-    {
-    	return Integer.parseInt(txtIDMatch.getText());
-    }
     public Date get_txtDate()
     {
     	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     	try {
 			return formatter.parse(txtDate.getText());
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
@@ -302,5 +292,11 @@ public class New_Match extends JFrame {
     
     public void setControleur(ControleurMatchs controleur) {
         this.controleur = controleur;
+    }
+    
+    public void vd_MajEquipe()
+    { 
+    	lblEquipeaDomicile.setText("Equipe à domicile : " + get_txtEquipeDomicile());
+    	lblEquipeaVisiteur.setText("Equipe à visiteur : " + get_txtEquipeVisiteur());
     }
 }
