@@ -1,21 +1,10 @@
 package View;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import Controleur.ControleurUser;
 
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import java.awt.SystemColor;
-import javax.swing.JPasswordField;
-import javax.swing.JTextPane;
-import javax.swing.ImageIcon;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class Login extends JFrame {
 
@@ -32,7 +21,8 @@ public class Login extends JFrame {
 	 */
 	public Login() {
 		// Configuration initiale du JFrame
-        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\\\Users\\\\matth\\\\Desktop\\\\A4\\\\UML\\\\Workspace\\\\NBA_Tracker\\\\src\\\\View\\\\logo-NBA.jpg"));
+
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\tonyg\\Documents\\NBA_Tracker\\src\\View\\logo-NBA.jpg"));
         setTitle("NBA Tracker : Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 250, 250);
@@ -68,7 +58,7 @@ public class Login extends JFrame {
         lblNewLabel_2.setBounds(10, 10, 215, 110); // Définir la position et la taille du JLabel
 
         // Charger l'image
-        ImageIcon originalIcon = new ImageIcon("C:\\Users\\matth\\Desktop\\A4\\UML\\Workspace\\NBA_Tracker\\src\\View\\logo-NBA.jpg");
+        ImageIcon originalIcon = new ImageIcon("C:\\Users\\tonyg\\Documents\\NBA_Tracker\\src\\View\\logo-NBA.jpg");
 
         // Redimensionner l'image pour qu'elle s'adapte au JLabel
         Image originalImage = originalIcon.getImage();
