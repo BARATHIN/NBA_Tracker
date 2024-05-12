@@ -18,6 +18,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import Controleur.ControleurEquipe;
 
 public class New_Equipe extends JFrame {
@@ -119,7 +123,7 @@ public class New_Equipe extends JFrame {
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 
-		comboBoxPosition = new JComboBox<>(new String[] {"Meneur", "Arrière", "Ailier", "Ailier Fort", "Pivot"});
+		comboBoxPosition = new JComboBox<>(new String[]{"Meneur", "Arrière", "Ailier", "Ailier Fort", "Pivot"});
 		comboBoxPosition.setBounds(648, 134, 154, 21);
 		contentPane.add(comboBoxPosition);
 
@@ -153,7 +157,7 @@ public class New_Equipe extends JFrame {
 		String taille = textField_3.getText();
 		String poids = textField_4.getText();
 
-		Object[] row = { nom, position, age, taille, poids };
+		Object[] row = {nom, position, age, taille, poids};
 		tableModel.addRow(row);
 
 		textField_2.setText("");
@@ -171,13 +175,34 @@ public class New_Equipe extends JFrame {
 		}
 	}
 
-	private void ajouterEquipe() {
-		// Logique pour sauvegarder l'équipe
-		JOptionPane.showMessageDialog(this, "Équipe enregistrée avec succès.", "Sauvegarde Équipe", JOptionPane.INFORMATION_MESSAGE);
+	private void sauvegarderEquipe(String equipeName) {
+		String filePath = "C:\\Users\\Tony\\Documents\\NBA_Tracker\\src\\Data\\Equipes\\" + equipeName + ".txt";
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+			// Écrire les données de l'équipe dans le fichier texte
+			for (int i = 0; i < tableModel.getRowCount(); i++) {
+				for (int j = 0; j < tableModel.getColumnCount(); j++) {
+					writer.write(String.valueOf(tableModel.getValueAt(i, j)));
+					if (j < tableModel.getColumnCount() - 1) {
+						writer.write(",");
+					}
+				}
+				writer.write("\n");
+			}
+			writer.flush();
+			JOptionPane.showMessageDialog(this, "Équipe enregistrée avec succès dans " + filePath, "Sauvegarde Équipe", JOptionPane.INFORMATION_MESSAGE);
+		} catch (IOException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Erreur lors de la sauvegarde de l'équipe.", "Erreur", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
-	private void retournerAuxMatchs() {
-		// Implémentez votre logique ici pour retourner à la page des matchs
+	private void ajouterEquipe() {
+		String equipeName = textField.getText();
+		if (equipeName.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Veuillez saisir le nom de l'équipe.", "Erreur", JOptionPane.ERROR_MESSAGE);
+		} else {
+			sauvegarderEquipe(equipeName);
+		}
 	}
 
 	public void setControleur(ControleurEquipe controleur) {
